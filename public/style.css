@@ -1,0 +1,508 @@
+body {
+  background: #f5f7fb;
+}
+
+/* Welcome Section */
+.welcome-section {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.1),
+    rgba(184, 134, 11, 0.1)
+  );
+  border-radius: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2);
+}
+
+.welcome-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ffd700, #b8860b, #daa520, #ffd700);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: radiantText 4s ease infinite;
+  font-weight: 500;
+}
+
+.welcome-highlight {
+  font-size: 1.3rem;
+  margin-bottom: 0;
+  background: linear-gradient(135deg, #ffd700, #daa520, #b8860b, #ffd700);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: radiantText 3s ease infinite;
+}
+
+.welcome-highlight strong {
+  font-weight: 700;
+}
+
+@keyframes radiantText {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.tab-btn {
+  border-radius: 12px;
+  padding: 14px;
+  font-weight: 600;
+}
+
+/* Tabs: use underline for active state instead of full background */
+.nav-pills .nav-link {
+  background: transparent;
+  color: #333;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+}
+
+.nav-pills .nav-link.tab-btn {
+  border-radius: 0.5rem;
+}
+
+.nav-pills .nav-link.active {
+  background: transparent !important;
+  color: #b8860b;
+  box-shadow: none;
+  position: relative;
+  padding-bottom: 0.9rem;
+}
+
+.nav-pills .nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  bottom: 0.35rem;
+  height: 3px;
+  background: linear-gradient(135deg, #ffd700, #b8860b);
+  border-radius: 3px;
+}
+
+/* Highlight card to keep focus on the active candidate */
+.candidate-card {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 28px;
+  padding: 15px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.4s ease;
+}
+
+/* Add extra spacing around tab content for better layout */
+.tab-content {
+  padding: 1.5rem 0;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.candidate-img {
+  width: 100%;
+  background: #4f7cff;
+  aspect-ratio: 3 / 4;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 15px;
+}
+
+.carousel-item {
+  padding: 40px 0;
+}
+
+/* Swipable multi-card carousel */
+.candidate-scroller {
+  --slide-width: 82%;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: 40px 0;
+  min-height: 600px;
+  align-items: center;
+}
+
+.candidate-scroller::before,
+.candidate-scroller::after {
+  content: "";
+  flex: 0 0 calc((100% - var(--slide-width)) / 2);
+}
+
+.candidate-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.candidate-slide {
+  flex: 0 0 var(--slide-width);
+  scroll-snap-align: center;
+  transition: transform 220ms ease, filter 220ms ease, opacity 220ms ease;
+  transform: scale(0.92);
+  filter: blur(2px);
+  opacity: 0.7;
+  position: relative;
+}
+
+.candidate-slide.is-active {
+  transform: scale(1.02);
+  filter: blur(0);
+  opacity: 1;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .candidate-scroller {
+    --slide-width: 360px;
+  }
+}
+
+.carousel-item:not(.active) {
+  filter: blur(4px);
+  transform: scale(0.85);
+  opacity: 0.6;
+}
+
+/* Exclude detail photo carousel from blur effects */
+#candidatePhotoCarousel .carousel-item:not(.active) {
+  filter: none;
+  transform: none;
+  opacity: 1;
+}
+
+.carousel-item.active {
+  transform: scale(1);
+  filter: blur(0);
+  opacity: 1;
+}
+
+.vote-btn {
+  background: linear-gradient(135deg, #ffd700, #daa520, #ffd700, #b8860b);
+  background-size: 300% 300%;
+  color: #fff;
+  border-radius: 25px;
+  padding: 10px;
+  font-weight: 600;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  animation: radiantGlow 3s ease infinite;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vote-btn:hover {
+  background: linear-gradient(135deg, #ffd700, #daa520, #ffd700, #b8860b);
+  background-size: 300% 300%;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+  animation: radiantGlow 1.5s ease infinite;
+}
+
+@keyframes radiantGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.small-text {
+  font-size: 12px;
+  color: #777;
+}
+
+/* Golden detail badges */
+.detail-badges-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-badge {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.15),
+    rgba(218, 165, 32, 0.15)
+  );
+  border: 2px solid rgba(255, 215, 0, 0.6);
+  border-radius: 15px;
+  padding: 12px 18px;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.detail-badge:hover {
+  border-color: #ffd700;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.25),
+    rgba(218, 165, 32, 0.25)
+  );
+  transform: translateX(5px);
+}
+
+.detail-badge .fw-bold {
+  color: #b8860b;
+  margin-right: 8px;
+}
+
+/* Photo carousel touch optimization */
+#candidatePhotoCarousel .carousel-inner {
+  touch-action: pan-y pinch-zoom;
+}
+
+#candidatePhotoCarousel .carousel-item {
+  transition: transform 0.6s ease-in-out;
+}
+
+body.detail-open {
+  overflow: hidden;
+}
+
+/* Ensure page content sits above the 3D background */
+.container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Full-screen background canvas wrapper */
+#three-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.three-debug {
+  display: none;
+}
+
+.candidate-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: #f5f7fb;
+  z-index: 1055;
+  overflow: auto;
+}
+
+.candidate-detail-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.candidate-detail-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.candidate-detail-photo {
+  border-radius: 15px;
+}
+
+/* Navbar shadow */
+.navbar {
+  background-color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  position: relative;
+  z-index: 999;
+}
+
+/* Golden navbar buttons */
+.navbar .btn-primary {
+  background: linear-gradient(135deg, #ffd700, #daa520);
+  border-color: #ffd700;
+  color: #fff;
+}
+
+.navbar .btn-primary:hover {
+  background: linear-gradient(135deg, #daa520, #b8860b);
+  border-color: #daa520;
+  color: #fff;
+}
+
+.navbar .btn-outline-secondary {
+  border-color: #b8860b;
+  color: #b8860b;
+  background: transparent;
+}
+
+.navbar .btn-outline-secondary:hover {
+  background: #b8860b;
+  border-color: #b8860b;
+  color: #fff;
+}
+
+/* Golden outline buttons (More about him/her, etc.) */
+.btn-outline-primary {
+  border-color: #b8860b;
+  color: #b8860b;
+  background: transparent;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+  background: #b8860b !important;
+  border-color: #b8860b !important;
+  color: #fff !important;
+}
+
+/* Floating robot assistant */
+.robot-assistant {
+  position: fixed;
+  left: 20px;
+  top: 100px;
+  z-index: 1000;
+  animation: robotFloat 3s ease-in-out infinite;
+  transition: left 2s ease-in-out, top 2s ease-in-out, bottom 2s ease-in-out,
+    right 2s ease-in-out;
+}
+
+@keyframes robotFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.robot-body {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: 0 10px 30px rgba(218, 165, 32, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.robot-body:hover {
+  transform: scale(1.1);
+}
+
+.robot-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.robot-eyes {
+  display: flex;
+  gap: 12px;
+}
+
+.robot-eye {
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 50%;
+  animation: robotBlink 4s infinite;
+}
+
+@keyframes robotBlink {
+  0%,
+  96%,
+  100% {
+    transform: scaleY(1);
+  }
+  98% {
+    transform: scaleY(0.1);
+  }
+}
+
+.robot-mouth {
+  width: 24px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-radius: 0 0 50% 50%;
+}
+
+.robot-message {
+  position: absolute;
+  left: 100px;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 16px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  max-width: 280px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #334155;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.robot-message.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.robot-message::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  bottom: 20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 10px 8px 0;
+  border-color: transparent rgba(255, 255, 255, 0.95) transparent transparent;
+}
+
+@media (max-width: 768px) {
+  .robot-assistant {
+    left: 10px;
+    bottom: 70px;
+  }
+
+  .robot-body {
+    width: 60px;
+    height: 60px;
+  }
+
+  .robot-message {
+    max-width: 220px;
+    left: 80px;
+    font-size: 13px;
+    padding: 12px 16px;
+  }
+}
