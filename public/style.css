@@ -1,5 +1,6 @@
 body {
-  background: #f5f7fb;
+  background: #000000;
+  color: #e0e0e0;
 }
 
 /* Welcome Section */
@@ -8,12 +9,14 @@ body {
   padding: 2rem 1.5rem;
   background: linear-gradient(
     135deg,
-    rgba(255, 215, 0, 0.1),
-    rgba(184, 134, 11, 0.1)
+    rgba(255, 215, 0, 0.15),
+    rgba(184, 134, 11, 0.15)
   );
   border-radius: 20px;
-  border: 2px solid rgba(255, 215, 0, 0.3);
-  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2);
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3),
+    inset 0 0 60px rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .welcome-text {
@@ -65,7 +68,7 @@ body {
 /* Tabs: use underline for active state instead of full background */
 .nav-pills .nav-link {
   background: transparent;
-  color: #333;
+  color: #b8860b;
   border-radius: 0.5rem;
   padding: 0.6rem 1rem;
 }
@@ -76,7 +79,7 @@ body {
 
 .nav-pills .nav-link.active {
   background: transparent !important;
-  color: #b8860b;
+  color: #ffd700;
   box-shadow: none;
   position: relative;
   padding-bottom: 0.9rem;
@@ -95,14 +98,14 @@ body {
 
 /* Highlight card to keep focus on the active candidate */
 .candidate-card {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(20, 20, 20, 0.85);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(255, 215, 0, 0.4);
   border-radius: 28px;
   padding: 15px;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 215, 0, 0.2);
   transition: all 0.4s ease;
 }
 
@@ -113,14 +116,26 @@ body {
   padding-right: 20px;
 }
 
+.candidate-card h4,
+.candidate-card h5,
+.candidate-card .fw-bold {
+  color: #ffd700;
+}
+
+.candidate-card p,
+.candidate-card span:not(.fw-bold) {
+  color: #d0d0d0;
+}
+
 .candidate-img {
   width: 100%;
-  background: #4f7cff;
+  background: #1a1a1a;
   aspect-ratio: 3 / 4;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 15px;
+  border: 2px solid rgba(255, 215, 0, 0.2);
 }
 
 .carousel-item {
@@ -231,7 +246,7 @@ body {
 
 .small-text {
   font-size: 12px;
-  color: #777;
+  color: #b8b8b8;
 }
 
 /* Golden detail badges */
@@ -244,14 +259,14 @@ body {
 .detail-badge {
   background: linear-gradient(
     135deg,
-    rgba(255, 215, 0, 0.15),
-    rgba(218, 165, 32, 0.15)
+    rgba(255, 215, 0, 0.1),
+    rgba(218, 165, 32, 0.1)
   );
-  border: 2px solid rgba(255, 215, 0, 0.6);
+  border: 2px solid rgba(255, 215, 0, 0.5);
   border-radius: 15px;
   padding: 12px 18px;
   font-size: 14px;
-  color: #333;
+  color: #e0e0e0;
   transition: all 0.3s ease;
 }
 
@@ -259,14 +274,15 @@ body {
   border-color: #ffd700;
   background: linear-gradient(
     135deg,
-    rgba(255, 215, 0, 0.25),
-    rgba(218, 165, 32, 0.25)
+    rgba(255, 215, 0, 0.2),
+    rgba(218, 165, 32, 0.2)
   );
   transform: translateX(5px);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
 }
 
 .detail-badge .fw-bold {
-  color: #b8860b;
+  color: #ffd700;
   margin-right: 8px;
 }
 
@@ -304,7 +320,7 @@ body.detail-open {
 .candidate-detail-overlay {
   position: fixed;
   inset: 0;
-  background: #f5f7fb;
+  background: #000000;
   z-index: 1055;
   overflow: auto;
 }
@@ -316,22 +332,44 @@ body.detail-open {
 }
 
 .candidate-detail-card {
-  background: #fff;
+  background: rgba(20, 20, 20, 0.95);
+  border: 2px solid rgba(255, 215, 0, 0.4);
   border-radius: 20px;
   padding: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2),
+    inset 0 0 40px rgba(255, 215, 0, 0.05);
+}
+
+.candidate-detail-card h4 {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 .candidate-detail-photo {
   border-radius: 15px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
 }
 
 /* Navbar shadow */
 .navbar {
-  background-color: #ffffff !important;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  background-color: #000000 !important;
+  box-shadow: 0 6px 18px rgba(255, 215, 0, 0.15);
   position: relative;
   z-index: 999;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.navbar-brand {
+  color: #ffd700 !important;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 215, 0, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 /* Golden navbar buttons */
