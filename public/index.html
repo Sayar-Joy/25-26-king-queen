@@ -91,6 +91,11 @@
         </p>
       </div>
 
+      <!-- Selection Title -->
+      <h2 class="text-center mb-4" style="color: #003b73; font-weight: 700">
+        2025/26 CEIT King & Queen Selections
+      </h2>
+
       <!-- Tabs -->
       <ul class="nav nav-pills mb-4">
         <li class="nav-item w-50">
@@ -239,6 +244,161 @@
               <span class="fw-bold">About:</span>
               <span id="candidateDetailAbout"></span>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="text-center py-4 mt-5"
+      style="
+        background-color: rgba(0, 59, 115, 0.05);
+        border-top: 1px solid rgba(0, 59, 115, 0.2);
+      "
+    >
+      <p class="mb-0" style="color: #003b73; font-size: 14px">
+        Developed by <strong>Hlyan Paing Aung</strong>, UI Designed by
+        <strong>Htet Lin Htoo</strong>
+      </p>
+    </footer>
+
+    <!-- Selection Display Box -->
+    <div id="selectionDisplay" class="selection-display">
+      <h6>Your Selections:</h6>
+      <div id="selectionKing" class="selection-item" style="display: none">
+        <strong>King:</strong> <span id="selectionKingName"></span>
+      </div>
+      <div id="selectionQueen" class="selection-item" style="display: none">
+        <strong>Queen:</strong> <span id="selectionQueenName"></span>
+      </div>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div id="authModal" class="modal fade" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content"
+          style="border: 2px solid #003b73; border-radius: 20px"
+        >
+          <div
+            class="modal-header"
+            style="border-bottom: 2px solid rgba(0, 59, 115, 0.2)"
+          >
+            <h5 class="modal-title" style="color: #003b73; font-weight: 700">
+              🎉 Confirm Your Vote
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p style="color: #003b73; font-weight: 600">You have selected:</p>
+            <div
+              class="mb-3 p-3"
+              style="
+                background: rgba(0, 59, 115, 0.05);
+                border-radius: 10px;
+                border: 2px solid rgba(0, 59, 115, 0.2);
+              "
+            >
+              <div class="mb-2">
+                <strong style="color: #003b73">King:</strong>
+                <span
+                  id="authKingName"
+                  style="color: #ffd700; font-weight: 700"
+                ></span>
+              </div>
+              <div>
+                <strong style="color: #003b73">Queen:</strong>
+                <span
+                  id="authQueenName"
+                  style="color: #ffd700; font-weight: 700"
+                ></span>
+              </div>
+            </div>
+            <p style="color: #666; font-size: 14px; margin-top: 15px">
+              Please select your class and roll number to confirm your vote:
+            </p>
+
+            <div class="mb-3">
+              <label
+                for="authClass"
+                class="form-label"
+                style="color: #003b73; font-weight: 600"
+                >Select Your Class:</label
+              >
+              <select
+                id="authClass"
+                class="form-select"
+                style="border: 2px solid #003b73; border-radius: 10px"
+              >
+                <option value="">-- Choose your class --</option>
+                <option value="firstYear">First Year (Sem I)</option>
+                <option value="secondYear">Second Year (Sem 3)</option>
+                <option value="thirdYear">Third Year</option>
+                <option value="fourthYearFirst">Fourth Year (First Sem)</option>
+                <option value="fourthYearSecond">
+                  Fourth Year (Second Sem)
+                </option>
+                <option value="fifthYear">Fifth Year</option>
+                <option value="finalYear">Final Year</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label
+                for="authRollNumber"
+                class="form-label"
+                style="color: #003b73; font-weight: 600"
+                >Select Your Roll Number:</label
+              >
+              <select
+                id="authRollNumber"
+                class="form-select"
+                style="border: 2px solid #003b73; border-radius: 10px"
+                disabled
+              >
+                <option value="">-- First select your class --</option>
+              </select>
+            </div>
+            <div
+              id="authError"
+              class="alert alert-danger mt-3"
+              style="display: none; font-size: 14px"
+            ></div>
+            <div
+              id="authSuccess"
+              class="alert alert-success mt-3"
+              style="display: none; font-size: 14px"
+            ></div>
+          </div>
+          <div
+            class="modal-footer"
+            style="border-top: 2px solid rgba(0, 59, 115, 0.2)"
+          >
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              id="confirmVoteBtn"
+              class="btn"
+              style="
+                background: linear-gradient(135deg, #003b73, #0000cd);
+                color: #fff;
+                border: none;
+              "
+            >
+              Confirm Vote
+            </button>
           </div>
         </div>
       </div>

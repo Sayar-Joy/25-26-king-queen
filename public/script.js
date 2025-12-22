@@ -1,16 +1,26 @@
 // Populate king and queen carousels from shared candidate data.
+let selectedKing = null;
+let selectedQueen = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   const data = window.candidateData || {};
   const { maleCandidates = [], femaleCandidates = [] } = data;
 
-  renderCarousel(maleCandidates, "kingCarousel", { pronoun: "him" });
-  renderCarousel(femaleCandidates, "queenCarousel", { pronoun: "her" });
+  renderCarousel(maleCandidates, "kingCarousel", {
+    pronoun: "him",
+    gender: "king",
+  });
+  renderCarousel(femaleCandidates, "queenCarousel", {
+    pronoun: "her",
+    gender: "queen",
+  });
 
   bindCandidateDetailOverlay();
   initRobotAssistant();
+  initAuthModal();
 });
 
-function renderCarousel(candidates, carouselId, { pronoun }) {
+function renderCarousel(candidates, carouselId, { pronoun, gender }) {
   const carousel = document.getElementById(carouselId);
   const inner = carousel?.querySelector(".carousel-inner");
   if (!carousel || !inner) {
@@ -32,7 +42,9 @@ function renderCarousel(candidates, carouselId, { pronoun }) {
 
   // Render exactly one set of cards (no infinite wrap / no jumping).
   candidates.forEach((candidate, index) => {
-    scroller.appendChild(createCandidateCard(candidate, index, { pronoun }));
+    scroller.appendChild(
+      createCandidateCard(candidate, index, { pronoun, gender })
+    );
   });
 
   item.appendChild(scroller);
@@ -42,10 +54,12 @@ function renderCarousel(candidates, carouselId, { pronoun }) {
   bindCenterFocus(scroller);
 }
 
-function createCandidateCard(candidate, index, { pronoun }) {
+function createCandidateCard(candidate, index, { pronoun, gender }) {
   const slide = document.createElement("div");
   slide.className = "candidate-slide";
   slide.dataset.originalIndex = String(index);
+  slide.dataset.candidateId = candidate.id || index;
+  slide.dataset.gender = gender;
 
   const card = document.createElement("div");
   card.className = "candidate-card text-center";
@@ -64,6 +78,9 @@ function createCandidateCard(candidate, index, { pronoun }) {
   voteButton.className = "btn vote-btn w-100";
   voteButton.type = "button";
   voteButton.textContent = "Vote";
+  voteButton.addEventListener("click", () => {
+    handleVote(candidate, card, gender);
+  });
 
   const moreButton = document.createElement("button");
   moreButton.className = "btn btn-outline-primary w-100 mt-2 rounded-pill";
@@ -399,4 +416,179 @@ function bindCenterFocus(scroller) {
   window.addEventListener("resize", scheduleUpdate);
 
   scheduleUpdate();
+}
+
+function handleVote(candidate, cardElement, gender) {
+  if (gender === "king") {
+    // Remove previous king selection
+    const prevSelected = document.querySelector(
+      "#kingCarousel .candidate-card.selected"
+    );
+    if (prevSelected) {
+      prevSelected.classList.remove("selected");
+    }
+    selectedKing = candidate;
+  } else if (gender === "queen") {
+    // Remove previous queen selection
+    const prevSelected = document.querySelector(
+      "#queenCarousel .candidate-card.selected"
+    );
+    if (prevSelected) {
+      prevSelected.classList.remove("selected");
+    }
+    selectedQueen = candidate;
+  }
+
+  // Add selected class to current card
+  cardElement.classList.add("selected");
+
+  // Update selection display
+  updateSelectionDisplay();
+
+  // If both selected, show auth modal
+  if (selectedKing && selectedQueen) {
+    setTimeout(() => {
+      showAuthModal();
+    }, 500);
+  }
+}
+
+function updateSelectionDisplay() {
+  const displayBox = document.getElementById("selectionDisplay");
+  const kingDiv = document.getElementById("selectionKing");
+  const queenDiv = document.getElementById("selectionQueen");
+  const kingNameSpan = document.getElementById("selectionKingName");
+  const queenNameSpan = document.getElementById("selectionQueenName");
+
+  if (selectedKing) {
+    kingNameSpan.textContent = selectedKing.name;
+    kingDiv.style.display = "block";
+  } else {
+    kingDiv.style.display = "none";
+  }
+
+  if (selectedQueen) {
+    queenNameSpan.textContent = selectedQueen.name;
+    queenDiv.style.display = "block";
+  } else {
+    queenDiv.style.display = "none";
+  }
+
+  if (selectedKing || selectedQueen) {
+    displayBox.classList.add("show");
+  } else {
+    displayBox.classList.remove("show");
+  }
+}
+
+function showAuthModal() {
+  const authKingName = document.getElementById("authKingName");
+  const authQueenName = document.getElementById("authQueenName");
+
+  authKingName.textContent = selectedKing?.name || "";
+  authQueenName.textContent = selectedQueen?.name || "";
+
+  const authModal = new bootstrap.Modal(document.getElementById("authModal"));
+  authModal.show();
+}
+
+function initAuthModal() {
+  const confirmBtn = document.getElementById("confirmVoteBtn");
+  const classSelect = document.getElementById("authClass");
+  const rollSelect = document.getElementById("authRollNumber");
+  const errorDiv = document.getElementById("authError");
+  const successDiv = document.getElementById("authSuccess");
+
+  // Class to student count mapping
+  const classStudentCounts = {
+    firstYear: 80,
+    secondYear: 60,
+    thirdYear: 55,
+    fourthYearFirst: 45,
+    fourthYearSecond: 47,
+    fifthYear: 20,
+    finalYear: 15,
+  };
+
+  // Handle class selection change
+  classSelect?.addEventListener("change", () => {
+    const selectedClass = classSelect.value;
+
+    // Clear error messages
+    errorDiv.style.display = "none";
+    successDiv.style.display = "none";
+
+    if (!selectedClass) {
+      rollSelect.disabled = true;
+      rollSelect.innerHTML =
+        '<option value="">-- First select your class --</option>';
+      return;
+    }
+
+    // Populate roll numbers based on selected class
+    const studentCount = classStudentCounts[selectedClass];
+    rollSelect.innerHTML =
+      '<option value="">-- Select your roll number --</option>';
+
+    for (let i = 1; i <= studentCount; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = `Roll No. ${i}`;
+      rollSelect.appendChild(option);
+    }
+
+    rollSelect.disabled = false;
+  });
+
+  confirmBtn?.addEventListener("click", () => {
+    const selectedClass = classSelect.value;
+    const rollNumber = rollSelect.value;
+
+    errorDiv.style.display = "none";
+    successDiv.style.display = "none";
+
+    if (!selectedClass) {
+      errorDiv.textContent = "Please select your class.";
+      errorDiv.style.display = "block";
+      return;
+    }
+
+    if (!rollNumber) {
+      errorDiv.textContent = "Please select your roll number.";
+      errorDiv.style.display = "block";
+      return;
+    }
+
+    // Simulate vote submission
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = "Submitting...";
+
+    setTimeout(() => {
+      // Success
+      successDiv.innerHTML = `
+        <strong>✓ Vote submitted successfully!</strong><br>
+        Your vote for <strong>${selectedKing?.name}</strong> (King) and <strong>${selectedQueen?.name}</strong> (Queen) has been recorded.
+      `;
+      successDiv.style.display = "block";
+
+      confirmBtn.textContent = "Submitted!";
+
+      setTimeout(() => {
+        const authModal = bootstrap.Modal.getInstance(
+          document.getElementById("authModal")
+        );
+        authModal?.hide();
+
+        // Reset form
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = "Confirm Vote";
+        classSelect.value = "";
+        rollSelect.value = "";
+        rollSelect.disabled = true;
+        rollSelect.innerHTML =
+          '<option value="">-- First select your class --</option>';
+        successDiv.style.display = "none";
+      }, 2000);
+    }, 1500);
+  });
 }
