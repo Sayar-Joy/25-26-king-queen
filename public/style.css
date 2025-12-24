@@ -384,6 +384,15 @@ body.detail-open {
 .navbar-brand {
   color: #003b73 !important;
   text-shadow: 0 0 10px rgba(0, 59, 115, 0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  display: block;
 }
 
 .navbar-toggler {
@@ -625,4 +634,19 @@ body.detail-open {
     min-width: 240px;
     padding: 15px;
   }
+}
+
+/* Carousel Control Arrows - Dark blue for better visibility */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: brightness(0) saturate(100%) invert(13%) sepia(100%) saturate(5000%)
+    hue-rotate(200deg) brightness(50%) contrast(150%);
+  opacity: 1;
+  width: 2rem;
+  height: 2rem;
+}
+
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+  opacity: 0.7;
 }

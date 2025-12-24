@@ -45,7 +45,14 @@
     <!-- Navbar (full width) -->
     <nav class="navbar navbar-expand-lg mb-4 py-3">
       <div class="container-fluid px-4">
-        <a class="navbar-brand fw-bold" href="#">CEIT Stars</a>
+        <a class="navbar-brand fw-bold" href="#">
+          <img
+            src="assets/crown_logo.png"
+            class="navbar-logo"
+            alt="Crown logo"
+          />
+          <span>CEIT Stars</span>
+        </a>
 
         <button
           class="navbar-toggler"
@@ -78,6 +85,30 @@
     </nav>
 
     <div class="container py-4">
+      <!-- Voting Status Alert -->
+      <div
+        id="votingClosedAlert"
+        class="alert alert-warning text-center mb-4"
+        style="
+          display: none;
+          border: 2px solid #ffc107;
+          background: linear-gradient(135deg, #fff3cd, #ffecb5);
+          border-radius: 15px;
+        "
+      >
+        <h4 class="alert-heading" style="color: #003b73; font-weight: 700">
+          🔒 Voting is Currently Closed
+        </h4>
+        <p style="color: #003b73; font-size: 18px; margin-bottom: 10px">
+          The voting will open on <strong>January 9, 2026</strong> (Major
+          Welcome Day).
+        </p>
+        <p style="color: #666; font-size: 14px; margin-bottom: 0">
+          Please check back later. The voting form will be enabled when voting
+          opens.
+        </p>
+      </div>
+
       <!-- Welcome Section -->
       <div class="welcome-section mb-5">
         <p class="welcome-text">
@@ -321,8 +352,24 @@
               </div>
             </div>
             <p style="color: #666; font-size: 14px; margin-top: 15px">
-              Please select your class and roll number to confirm your vote:
+              Please enter your details to confirm your vote:
             </p>
+
+            <div class="mb-3">
+              <label
+                for="authName"
+                class="form-label"
+                style="color: #003b73; font-weight: 600"
+                >Your Name:</label
+              >
+              <input
+                type="text"
+                id="authName"
+                class="form-control"
+                placeholder="Enter your full name"
+                style="border: 2px solid #003b73; border-radius: 10px"
+              />
+            </div>
 
             <div class="mb-3">
               <label
@@ -365,6 +412,24 @@
                 <option value="">-- First select your class --</option>
               </select>
             </div>
+
+            <div class="mb-3">
+              <label
+                for="authPin"
+                class="form-label"
+                style="color: #003b73; font-weight: 600"
+                >Your PIN:</label
+              >
+              <input
+                type="password"
+                id="authPin"
+                class="form-control"
+                placeholder="Enter your 4-digit PIN"
+                maxlength="4"
+                style="border: 2px solid #003b73; border-radius: 10px"
+              />
+            </div>
+
             <div
               id="authError"
               class="alert alert-danger mt-3"

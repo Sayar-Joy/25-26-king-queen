@@ -4,6 +4,7 @@ const demoFemalePhoto = "assets/female.jpeg";
 
 const maleCandidates = [
   {
+    id: 1,
     name: "Aiden Kyaw",
     rollNumber: "CEIT-201",
     photo: demoMalePhoto,
@@ -12,6 +13,7 @@ const maleCandidates = [
       "Focuses on practical aeronautics projects and mentors freshmen in robotics club meetings.",
   },
   {
+    id: 2,
     name: "Min Htet Soe",
     rollNumber: "CEIT-202",
     photo: demoMalePhoto,
@@ -20,6 +22,7 @@ const maleCandidates = [
       "Organizes unplugged sessions on campus to raise funds for local literacy programs.",
   },
   {
+    id: 3,
     name: "Kaung Khant",
     rollNumber: "CEIT-203",
     photo: demoMalePhoto,
@@ -28,6 +31,7 @@ const maleCandidates = [
       "Leads the university adventure society and champions sustainable campus cleanups.",
   },
   {
+    id: 4,
     name: "Thura Lin",
     rollNumber: "CEIT-204",
     photo: demoMalePhoto,
@@ -36,6 +40,7 @@ const maleCandidates = [
       "National hackathon finalist who tutors peers in algorithms every weekend.",
   },
   {
+    id: 5,
     name: "Sir Thihah",
     rollNumber: "CEIT-205",
     photo: demoMalePhoto,
@@ -44,6 +49,7 @@ const maleCandidates = [
       "Documents student life and curates exhibitions that highlight campus diversity.",
   },
   {
+    id: 6,
     name: "Hein Paing",
     rollNumber: "CEIT-206",
     photo: demoMalePhoto,
@@ -51,18 +57,11 @@ const maleCandidates = [
     about:
       "Captains the varsity squad and hosts community sports clinics for local teens.",
   },
-  {
-    name: "Nay Min Aung",
-    rollNumber: "CEIT-207",
-    photo: demoMalePhoto,
-    hobby: "Culinary experiments",
-    about:
-      "Runs weekend pop-up cafés that donate proceeds to the student emergency fund.",
-  },
 ];
 
 const femaleCandidates = [
   {
+    id: 1,
     name: "Thiri Su",
     rollNumber: "CEIT-301",
     photo: demoFemalePhoto,
@@ -71,6 +70,7 @@ const femaleCandidates = [
       "Choreographs inclusive performances that blend traditional and modern styles.",
   },
   {
+    id: 2,
     name: "Phyu Yadanar",
     rollNumber: "CEIT-302",
     photo: demoFemalePhoto,
@@ -79,6 +79,7 @@ const femaleCandidates = [
       "Designs open-source study guides and leads workshops on visual storytelling.",
   },
   {
+    id: 3,
     name: "Ei Mon Kyaing",
     rollNumber: "CEIT-303",
     photo: demoFemalePhoto,
@@ -87,6 +88,7 @@ const femaleCandidates = [
       "Cultivates rooftop gardens that supply the dorm kitchen with fresh produce.",
   },
   {
+    id: 4,
     name: "Hnin Yu",
     rollNumber: "CEIT-304",
     photo: demoFemalePhoto,
@@ -95,6 +97,7 @@ const femaleCandidates = [
       "Chairs the debate council and advocates for student-led policy reforms.",
   },
   {
+    id: 5,
     name: "Yuri Sandar",
     rollNumber: "CEIT-305",
     photo: demoFemalePhoto,
@@ -103,20 +106,13 @@ const femaleCandidates = [
       "Hosts stargazing nights that inspire underclassmen to explore space science.",
   },
   {
+    id: 6,
     name: "Nandar Hlaing",
     rollNumber: "CEIT-306",
     photo: demoFemalePhoto,
     hobby: "Volunteering at shelters",
     about:
       "Coordinates outreach drives to provide tech education for displaced youth.",
-  },
-  {
-    name: "Su Nyein Ei",
-    rollNumber: "CEIT-307",
-    photo: demoFemalePhoto,
-    hobby: "Indie film production",
-    about:
-      "Produces documentary shorts featuring student innovators across faculties.",
   },
 ];
 

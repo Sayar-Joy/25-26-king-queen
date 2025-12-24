@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard - TTU Stars</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="admin-style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <h2>🔐 Admin Access</h2>
+          <p>TTU Stars Voting Dashboard</p>
+        </div>
+        <form id="loginForm">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              placeholder="Enter username"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+          <div
+            id="loginError"
+            class="alert alert-danger"
+            style="display: none"
+          ></div>
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="dashboard-container" style="display: none">
+      <!-- Header -->
+      <nav class="dashboard-header">
+        <div class="container-fluid">
+          <div class="d-flex justify-content-between align-items-center">
+            <h1 class="dashboard-title">
+              <span class="crown-icon">👑</span>
+              TTU Stars - Admin Dashboard
+            </h1>
+            <div class="d-flex gap-2 align-items-center">
+              <span id="lastUpdated" class="text-muted small"></span>
+              <button id="refreshBtn" class="btn btn-sm btn-outline-primary">
+                🔄 Refresh
+              </button>
+              <button id="logoutBtn" class="btn btn-sm btn-outline-danger">
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <div class="container-fluid">
+          <!-- Voting Control -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div
+                class="results-card"
+                style="
+                  background: linear-gradient(135deg, #003b73, #0000cd);
+                  color: white;
+                "
+              >
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h3 class="section-title mb-2" style="color: white">
+                      🗳️ Voting Control
+                    </h3>
+                    <p class="mb-0" id="votingStatusText">Loading...</p>
+                  </div>
+                  <div class="form-check form-switch" style="font-size: 2rem">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="votingToggle"
+                      style="cursor: pointer; width: 4rem; height: 2rem"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overall Statistics -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h3 class="section-title">📊 Overall Statistics</h3>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <div class="stat-card stat-card-total">
+                <div class="stat-value" id="totalStudents">0</div>
+                <div class="stat-label">Total Students</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <div class="stat-card stat-card-voted">
+                <div class="stat-value" id="totalVoted">0</div>
+                <div class="stat-label">Total Voted</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <div class="stat-card stat-card-pending">
+                <div class="stat-value" id="totalNotVoted">0</div>
+                <div class="stat-label">Not Voted</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <div class="stat-card stat-card-percentage">
+                <div class="stat-value" id="votingPercentage">0%</div>
+                <div class="stat-label">Voting Rate</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vote Breakdown -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h3 class="section-title">🗳️ Vote Breakdown</h3>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+              <div
+                class="stat-card"
+                style="background: linear-gradient(135deg, #667eea, #764ba2)"
+              >
+                <div class="stat-value" id="studentVotes" style="color: white">
+                  0
+                </div>
+                <div class="stat-label" style="color: rgba(255, 255, 255, 0.9)">
+                  Student Votes
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+              <div
+                class="stat-card"
+                style="background: linear-gradient(135deg, #f093fb, #f5576c)"
+              >
+                <div class="stat-value" id="judgeVotes" style="color: white">
+                  0/10
+                </div>
+                <div class="stat-label" style="color: rgba(255, 255, 255, 0.9)">
+                  Judge Votes
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+              <div
+                class="stat-card"
+                style="background: linear-gradient(135deg, #4facfe, #00f2fe)"
+              >
+                <div class="stat-value" id="teacherVotes" style="color: white">
+                  0/10
+                </div>
+                <div class="stat-label" style="color: rgba(255, 255, 255, 0.9)">
+                  Teacher Votes
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- King and Queen Results -->
+          <div class="row mb-4">
+            <!-- Weighted Voting Info -->
+            <div class="col-12 mb-3">
+              <div class="alert alert-info">
+                <strong>⚖️ Weighted Voting System:</strong> Results are
+                calculated using weighted scores:
+                <span class="badge bg-primary">Students 60%</span>
+                <span class="badge bg-secondary">Judges 20%</span>
+                <span class="badge bg-secondary">Teachers 20%</span>
+              </div>
+            </div>
+
+            <!-- King Results -->
+            <div class="col-lg-6 mb-4">
+              <div class="results-card">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <h3 class="section-title mb-0">👑 King Results</h3>
+                  <small class="text-muted">Ranked by Weighted Score</small>
+                </div>
+                <div class="reveal-buttons mb-3">
+                  <button
+                    class="btn btn-sm btn-outline-primary reveal-btn"
+                    data-gender="king"
+                    data-rank="1"
+                  >
+                    Reveal 🥇 Top 1
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-primary reveal-btn"
+                    data-gender="king"
+                    data-rank="2"
+                  >
+                    Reveal 🥈 Top 2
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-primary reveal-btn"
+                    data-gender="king"
+                    data-rank="3"
+                  >
+                    Reveal 🥉 Top 3
+                  </button>
+                </div>
+                <small class="text-muted">Ranked by Weighted Score</small>
+                <div id="kingChart" class="chart-container-vertical"></div>
+              </div>
+            </div>
+
+            <!-- Queen Results -->
+            <div class="col-lg-6 mb-4">
+              <div class="results-card">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <h3 class="section-title mb-0">👸 Queen Results</h3>
+                </div>
+                <div class="reveal-buttons mb-3">
+                  <button
+                    class="btn btn-sm btn-outline-primary reveal-btn"
+                    data-gender="queen"
+                    data-rank="1"
+                  >
+                    Reveal 🥇 Top 1
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-primary reveal-btn"
+                    data-gender="queen"
+                    data-rank="2"
+                  >
+                    Reveal 🥈 Top 2
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-primary reveal-btn"
+                    data-gender="queen"
+                    data-rank="3"
+                  >
+                    Reveal 🥉 Top 3
+                  </button>
+                </div>
+                <div id="queenChart" class="chart-container-vertical"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- By Collection Breakdown -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="results-card">
+                <h3 class="section-title">📚 Class-wise Breakdown</h3>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Class</th>
+                        <th>Total Students</th>
+                        <th>Voted</th>
+                        <th>Not Voted</th>
+                        <th>Voting Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody id="collectionTable">
+                      <!-- Data will be populated here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Manual Vote Entry Section -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="results-card">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <div>
+                    <h3 class="section-title mb-0">✍️ Manual Vote Entry</h3>
+                    <p class="text-muted mb-0 small">
+                      Enter votes collected from judges and teachers
+                    </p>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="batchModeToggle"
+                    />
+                    <label class="form-check-label" for="batchModeToggle"
+                      >Quick Entry Mode</label
+                    >
+                  </div>
+                </div>
+
+                <!-- Progress Summary -->
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <div class="alert alert-info mb-0">
+                      <strong>👨‍⚖️ Judges:</strong>
+                      <span id="judgesProgress">0/10 voted</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="alert alert-info mb-0">
+                      <strong>👨‍🏫 Teachers:</strong>
+                      <span id="teachersProgress">0/10 voted</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tabs for Judges and Teachers -->
+                <ul
+                  class="nav nav-tabs mb-3"
+                  id="manualVoteTabs"
+                  role="tablist"
+                >
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link active"
+                      id="judges-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#judges-panel"
+                      type="button"
+                      role="tab"
+                    >
+                      👨‍⚖️ Judges (J001-J010)
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="teachers-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#teachers-panel"
+                      type="button"
+                      role="tab"
+                    >
+                      👨‍🏫 Teachers (T001-T010)
+                    </button>
+                  </li>
+                </ul>
+
+                <div class="tab-content" id="manualVoteTabContent">
+                  <!-- Judges Panel -->
+                  <div
+                    class="tab-pane fade show active"
+                    id="judges-panel"
+                    role="tabpanel"
+                  >
+                    <div id="judgesAccordion" class="accordion">
+                      <!-- Judge entries will be dynamically generated -->
+                    </div>
+                  </div>
+
+                  <!-- Teachers Panel -->
+                  <div
+                    class="tab-pane fade"
+                    id="teachers-panel"
+                    role="tabpanel"
+                  >
+                    <div id="teachersAccordion" class="accordion">
+                      <!-- Teacher entries will be dynamically generated -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-overlay" style="display: none">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Celebration Modal -->
+    <div
+      class="modal fade"
+      id="celebrationModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content celebration-modal">
+          <div class="modal-header border-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-center p-4">
+            <div class="celebration-icon mb-3" id="celebrationIcon">🎉</div>
+            <h2 class="celebration-title mb-3" id="celebrationTitle">King</h2>
+            <div class="celebration-photo mb-3">
+              <img
+                id="celebrationPhoto"
+                src=""
+                alt="Winner"
+                class="img-fluid rounded-circle"
+              />
+            </div>
+            <h3 class="celebration-name mb-2" id="celebrationName">
+              Candidate Name
+            </h3>
+            <p class="celebration-subtitle" id="celebrationSubtitle">
+              Candidate #1
+            </p>
+            <div class="celebration-confetti">🎊 🎉 ✨ 🏆 ✨ 🎉 🎊</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="data.js"></script>
+    <script src="admin-script.js"></script>
+  </body>
+</html>
