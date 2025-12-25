@@ -650,3 +650,20 @@ body.detail-open {
 .carousel-control-next:hover .carousel-control-next-icon {
   opacity: 0.7;
 }
+
+/* Rounded background for detail page carousel arrows only */
+#candidatePhotoCarousel .carousel-control-prev-icon,
+#candidatePhotoCarousel .carousel-control-next-icon {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+
+#candidatePhotoCarousel
+  .carousel-control-prev:hover
+  .carousel-control-prev-icon,
+#candidatePhotoCarousel
+  .carousel-control-next:hover
+  .carousel-control-next-icon {
+  background-color: rgba(255, 255, 255, 0.7);
+}

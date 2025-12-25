@@ -8,7 +8,11 @@ const maleCandidates = [
     name: "Aiden Kyaw",
     rollNumber: "CEIT-201",
     photo: "assets/kings/ks1/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/kings/ks1/detail1.jpg",
+      "assets/kings/ks1/detail2.jpg",
+      "assets/kings/ks1/detail3.jpg",
+    ],
     hobby: "Building racing drones",
     about:
       "Focuses on practical aeronautics projects and mentors freshmen in robotics club meetings.",
@@ -18,7 +22,11 @@ const maleCandidates = [
     name: "Min Htet Soe",
     rollNumber: "CEIT-202",
     photo: "assets/kings/ks2/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/kings/ks2/detail1.jpg",
+      "assets/kings/ks2/detail2.jpg",
+      "assets/kings/ks2/detail3.jpg",
+    ],
     hobby: "Classical guitar",
     about:
       "Organizes unplugged sessions on campus to raise funds for local literacy programs.",
@@ -28,7 +36,11 @@ const maleCandidates = [
     name: "Kaung Khant",
     rollNumber: "CEIT-203",
     photo: "assets/kings/ks3/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/kings/ks3/detail1.jpg",
+      "assets/kings/ks3/detail2.jpg",
+      "assets/kings/ks3/detail3.jpg",
+    ],
     hobby: "Trail running",
     about:
       "Leads the university adventure society and champions sustainable campus cleanups.",
@@ -52,7 +64,11 @@ const maleCandidates = [
     name: "Sir Thihah",
     rollNumber: "CEIT-205",
     photo: "assets/kings/ks5/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/kings/ks5/detail1.jpg",
+      "assets/kings/ks5/detail2.jpg",
+      "assets/kings/ks5/detail3.jpg",
+    ],
     hobby: "Photography",
     about:
       "Documents student life and curates exhibitions that highlight campus diversity.",
@@ -79,7 +95,11 @@ const femaleCandidates = [
     name: "Thiri Su",
     rollNumber: "CEIT-301",
     photo: "assets/queens/qs1/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/queens/qs1/detail1.jpg",
+      "assets/queens/qs1/detail2.jpg",
+      "assets/queens/qs1/detail3.jpg",
+    ],
     hobby: "Contemporary dance",
     about:
       "Choreographs inclusive performances that blend traditional and modern styles.",
@@ -89,7 +109,11 @@ const femaleCandidates = [
     name: "Phyu Yadanar",
     rollNumber: "CEIT-302",
     photo: "assets/queens/qs2/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/queens/qs2/detail1.jpg",
+      "assets/queens/qs2/detail2.jpg",
+      "assets/queens/qs2/detail3.jpg",
+    ],
     hobby: "Digital illustration",
     about:
       "Designs open-source study guides and leads workshops on visual storytelling.",
@@ -99,7 +123,11 @@ const femaleCandidates = [
     name: "Ei Mon Kyaing",
     rollNumber: "CEIT-303",
     photo: "assets/queens/qs3/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/queens/qs3/detail1.jpg",
+      "assets/queens/qs3/detail2.jpg",
+      "assets/queens/qs3/detail3.jpg",
+    ],
     hobby: "Community gardening",
     about:
       "Cultivates rooftop gardens that supply the dorm kitchen with fresh produce.",
@@ -109,7 +137,11 @@ const femaleCandidates = [
     name: "Hnin Yu",
     rollNumber: "CEIT-304",
     photo: "assets/queens/qs4/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/queens/qs4/detail1.jpg",
+      "assets/queens/qs4/detail2.jpg",
+      "assets/queens/qs4/detail3.jpg",
+    ],
     hobby: "Debate",
     about:
       "Chairs the debate council and advocates for student-led policy reforms.",
@@ -119,7 +151,11 @@ const femaleCandidates = [
     name: "Yuri Sandar",
     rollNumber: "CEIT-305",
     photo: "assets/queens/qs5/main.jpg",
-    detailPhotos: [],
+    detailPhotos: [
+      "assets/queens/qs5/detail1.jpg",
+      "assets/queens/qs5/detail2.jpg",
+      "assets/queens/qs5/detail3.jpg",
+    ],
     hobby: "Astrophotography",
     about:
       "Hosts stargazing nights that inspire underclassmen to explore space science.",

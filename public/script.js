@@ -136,13 +136,12 @@ function openCandidateDetail(candidate) {
   const hobby = document.getElementById("candidateDetailHobby");
   const about = document.getElementById("candidateDetailAbout");
 
-  // Handle photo carousel - use the same photo 3 times for now
+  // Handle photo carousel - use detailPhotos if available, otherwise use main photo
   if (photoCarousel) {
-    const photos = [
-      candidate?.photo || "",
-      candidate?.photo || "",
-      candidate?.photo || "",
-    ];
+    const photos =
+      candidate?.detailPhotos && candidate.detailPhotos.length > 0
+        ? candidate.detailPhotos
+        : [candidate?.photo || ""];
 
     photoCarousel.innerHTML = photos
       .map(
@@ -153,6 +152,16 @@ function openCandidateDetail(candidate) {
     `
       )
       .join("");
+
+    // Re-initialize Bootstrap carousel to enable touch swipe
+    const carouselElement = document.getElementById("candidatePhotoCarousel");
+    if (carouselElement && window.bootstrap) {
+      const bsCarousel = new bootstrap.Carousel(carouselElement, {
+        interval: false,
+        touch: true,
+        wrap: true,
+      });
+    }
   }
 
   if (name) {
@@ -786,12 +795,15 @@ async function submitVote(
 // Voting Status Functions
 async function checkVotingStatus() {
   try {
-    const response = await fetch("https://two5-26-king-queen-backend.onrender.com/api/voting-status", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://two5-26-king-queen-backend.onrender.com/api/voting-status",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       console.error("Failed to fetch voting status");
