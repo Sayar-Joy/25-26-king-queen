@@ -535,7 +535,7 @@ function initAuthModal() {
     finalYear: 15,
   };
 
-  // Class to roll number prefix mapping (student-friendly format)
+  // Class to roll number prefix mapping (student-friendly format for display)
   const rollNumberPrefixes = {
     firstYear: "SI-IT",
     secondYear: "SIII-IT",
@@ -544,6 +544,17 @@ function initAuthModal() {
     fourthYearSecond: "IV-IT(second)",
     fifthYear: "V-IT",
     finalYear: "VI-IT",
+  };
+
+  // Backend format mapping (what API expects)
+  const backendPrefixes = {
+    firstYear: "FY1",
+    secondYear: "SY3",
+    thirdYear: "TY",
+    fourthYearFirst: "FY1S",
+    fourthYearSecond: "FY2S",
+    fifthYear: "FFY",
+    finalYear: "FNL",
   };
 
   // Handle class selection change
@@ -563,15 +574,19 @@ function initAuthModal() {
 
     // Populate roll numbers based on selected class
     const studentCount = classStudentCounts[selectedClass];
-    const prefix = rollNumberPrefixes[selectedClass];
+    const displayPrefix = rollNumberPrefixes[selectedClass];
+    const backendPrefix = backendPrefixes[selectedClass];
     rollSelect.innerHTML =
       '<option value="">-- Select your roll number --</option>';
 
     for (let i = 1; i <= studentCount; i++) {
       const option = document.createElement("option");
-      const rollNumber = `${prefix} ${i}`;
-      option.value = rollNumber;
-      option.textContent = rollNumber;
+      const displayRollNumber = `${displayPrefix} ${i}`;
+      const backendRollNumber = `${backendPrefix}-${String(i).padStart(3, "0")}`;
+      
+      // Display student-friendly format, but store backend format as value
+      option.value = backendRollNumber;
+      option.textContent = displayRollNumber;
       rollSelect.appendChild(option);
     }
 
