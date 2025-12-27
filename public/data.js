@@ -13,7 +13,7 @@ const maleCandidates = [
       "assets/kings/ks1/detail2.jpg",
       "assets/kings/ks1/detail3.jpg",
     ],
-    hobby: "Building racing drones",
+    hobby: "Art & Golf",
     about:
       "Focuses on practical aeronautics projects and mentors freshmen in robotics club meetings.",
   },
@@ -41,9 +41,9 @@ const maleCandidates = [
       "assets/kings/ks3/detail2.jpg",
       "assets/kings/ks3/detail3.jpg",
     ],
-    hobby: "Trail running",
+    hobby: "Reading and badminton 🏸",
     about:
-      "Leads the university adventure society and champions sustainable campus cleanups.",
+      "I am a passionate reader and an occasional writer with a keen interest in business and management. Beyond my academic and professional pursuits, I enjoy staying active through badminton and find great value in participating in panel discussions and collaborative dialogues.Mirrors reflect our outer beauty; books reflect our inner growth.",
   },
   {
     id: "k4",
@@ -55,7 +55,7 @@ const maleCandidates = [
       "assets/kings/ks4/detail2.jpg",
       "assets/kings/ks4/detail3.jpg",
     ],
-    hobby: "art, sports, and playing guitar",
+    hobby: "art, sports and playing guitar",
     about:
       "I’m Kaung Khant Zaw — your artist, athlete, and guitar-shredder. I don't just follow the beat; I create it. I’m bringing my A-game from the court to the stage to represent you as King. Simple as that. Your vote, my vibe!",
   },
@@ -69,9 +69,9 @@ const maleCandidates = [
       "assets/kings/ks5/detail2.jpg",
       "assets/kings/ks5/detail3.jpg",
     ],
-    hobby: "Photography",
+    hobby: "Calculation and exploration",
     about:
-      "Documents student life and curates exhibitions that highlight campus diversity.",
+      "While others take things for granted, I earn them through dedication. As a phoenix who can overcome any adversity, letting me go is a mistake your future cannot afford.",
   },
   {
     id: "k6",
@@ -100,9 +100,9 @@ const femaleCandidates = [
       "assets/queens/qs1/detail2.jpg",
       "assets/queens/qs1/detail3.jpg",
     ],
-    hobby: "Contemporary dance",
+    hobby: "Learning languages",
     about:
-      "Choreographs inclusive performances that blend traditional and modern styles.",
+      "“I don’t talk much, but when I care, I’m always there for you.”",
   },
   {
     id: "q2",
@@ -114,9 +114,9 @@ const femaleCandidates = [
       "assets/queens/qs2/detail2.jpg",
       "assets/queens/qs2/detail3.jpg",
     ],
-    hobby: "Digital illustration",
+    hobby: "almost everything (like “when will my life begin” song )",
     about:
-      "Designs open-source study guides and leads workshops on visual storytelling.",
+      "Introvert by default, extrovert once you say hi.",
   },
   {
     id: "q3",
@@ -134,7 +134,7 @@ const femaleCandidates = [
   },
   {
     id: "q4",
-    name: "Myat Mahaythi Khin",
+    name: "Myat Hay Thi Khin",
     rollNumber: "SI IT-36",
     photo: "assets/queens/qs4/main.jpg",
     detailPhotos: [
@@ -142,9 +142,9 @@ const femaleCandidates = [
       "assets/queens/qs4/detail2.jpg",
       "assets/queens/qs4/detail3.jpg",
     ],
-    hobby: "Debate",
+    hobby: "Drawing",
     about:
-      "Chairs the debate council and advocates for student-led policy reforms.",
+      "I'm a quiet person but once you get to know me I'll always be supporting you.",
   },
   {
     id: "q5",
@@ -156,13 +156,13 @@ const femaleCandidates = [
       "assets/queens/qs5/detail2.jpg",
       "assets/queens/qs5/detail3.jpg",
     ],
-    hobby: "Astrophotography",
+    hobby: "Reading & swimming",
     about:
-      "Hosts stargazing nights that inspire underclassmen to explore space science.",
+      "I choose growth over comparison, authenticity over perfection. I embrace my flaws and move forward with calm confidence and quiet purpose.",
   },
   {
     id: "q6",
-    name: "Neyin Su Thaw",
+    name: "Nyein Su Thaw",
     rollNumber: "SI IT 70",
     photo: "assets/queens/qs6/main.jpg",
     detailPhotos: [
