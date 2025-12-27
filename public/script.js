@@ -660,7 +660,7 @@ function getCollectionName(classValue) {
 
 /**
  * Maps the vote submission data to match the backend data structure
- * @param {string|number} rollNumber - The roll number of the student (e.g., "SI-IT 1", "V-IT 15")
+ * @param {string|number} rollNumber - The roll number of the student (e.g., "FY1-001", "FNL-015")
  * @param {string|number} pin - The PIN for authentication
  * @param {string} name - The name of the student
  * @param {Object} kingCandidate - The selected king candidate object
@@ -870,7 +870,7 @@ COLLECTIONS:
 
 SAMPLE FRONTEND VOTE SUBMISSION DATA:
 {
-  "rollNumber": "SI-IT 1",   // String: Student-friendly roll number format
+  "rollNumber": "SI-IT 1",  // String: Formatted roll number (SI-IT 1, SIII-IT 1, etc.)
   "pin": 4821,               // Number: 1000-9999 (4-digit PIN)
   "name": "John Doe",        // String: Student's full name (required)
   "king": 3,                 // Number: 1-6 (King candidate ID)
@@ -889,7 +889,7 @@ ROLL NUMBER FORMATS:
 EXAMPLE USAGE:
 // For Fifth Year student
 const sampleVoteData = {
-  rollNumber: "V-IT 15",
+  rollNumber: "V-IT 1",
   pin: 4821,
   name: "John Doe",
   king: 3,
@@ -910,7 +910,7 @@ SUCCESS RESPONSE:
   "success": true,
   "message": "Vote submitted successfully",
   "student": {
-    "rollNumber": "V-IT 15",
+    "rollNumber": "FFY-001",
     "name": "John Doe",
     "voted": true,
     "king": 3,
@@ -923,5 +923,5 @@ ERROR RESPONSES:
 - Already voted: {"error": "Already voted", "details": "This student has already submitted their vote"}
 - Missing name: {"error": "Name is required"}
 - Invalid vote: {"error": "King and Queen must be between 1 and 6"}
-- Not found: {"error": "Student not found", "details": "Roll number not found"}
+- Not found: {"error": "Student not found", "details": "Roll number not found in collection"}
 */
