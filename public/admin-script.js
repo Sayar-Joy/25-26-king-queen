@@ -81,13 +81,17 @@ async function handleLogin(e) {
     const result = await response.json();
 
     if (response.ok && result.success) {
-      // Login successful
+      // Login successful - store JWT token
       isAuthenticated = true;
-      authToken = result.token || null;
+      authToken = result.token; // Token is now always provided by backend
       sessionStorage.setItem("adminAuth", "true");
-      if (authToken) {
-        sessionStorage.setItem("authToken", authToken);
+      sessionStorage.setItem("authToken", authToken);
+
+      // Store admin info if needed
+      if (result.admin) {
+        sessionStorage.setItem("adminUser", JSON.stringify(result.admin));
       }
+
       showDashboard();
       fetchStats();
       fetchVotingStatus(); // Fetch voting status on login
@@ -113,12 +117,35 @@ async function handleLogin(e) {
 }
 
 function handleLogout() {
+  // CRITICAL: Stop auto-refresh FIRST to prevent API calls with invalid token
+  stopAutoRefresh();
+
+  // Clear all authentication state
   isAuthenticated = false;
   authToken = null;
+  statsData = null;
+  votingEnabled = false;
+  manualVoteData = { judges: {}, teachers: {} };
+
+  // Clear session storage completely
   sessionStorage.removeItem("adminAuth");
   sessionStorage.removeItem("authToken");
-  stopAutoRefresh();
+  sessionStorage.removeItem("adminUser");
+  sessionStorage.removeItem("adminId");
+
+  // Double-check interval is cleared
+  if (autoRefreshInterval) {
+    clearInterval(autoRefreshInterval);
+    autoRefreshInterval = null;
+  }
+
+  // Show login page
   showLogin();
+
+  // Force page reload to ensure completely clean state
+  setTimeout(() => {
+    window.location.href = window.location.origin + window.location.pathname;
+  }, 100);
 }
 
 function checkAuth() {
@@ -155,7 +182,8 @@ function showLoading(show) {
 }
 
 async function fetchStats(showLoader = false) {
-  if (!isAuthenticated) return;
+  // Safety check: prevent API calls when not authenticated
+  if (!isAuthenticated || !authToken) return;
 
   if (showLoader) showLoading(true);
 
@@ -169,16 +197,21 @@ async function fetchStats(showLoader = false) {
       headers["Authorization"] = `Bearer ${authToken}`;
     }
 
-    const response = await fetch("https://two5-26-king-queen-backend.onrender.com/api/stats/live", {
-      method: "GET",
-      headers: headers,
-    });
+    const response = await fetch(
+      "https://two5-26-king-queen-backend.onrender.com/api/stats/live",
+      {
+        method: "GET",
+        headers: headers,
+      }
+    );
 
     if (!response.ok) {
       if (response.status === 401 || response.status === 403) {
         // Unauthorized - logout user
+        const errorData = await response.json().catch(() => ({}));
+        alert(errorData.message || "Session expired. Please log in again.");
         handleLogout();
-        throw new Error("Session expired. Please login again.");
+        return;
       }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -479,12 +512,15 @@ function showError(message) {
 // Voting Control Functions
 async function fetchVotingStatus() {
   try {
-    const response = await fetch("https://two5-26-king-queen-backend.onrender.com/api/voting-status", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://two5-26-king-queen-backend.onrender.com/api/voting-status",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -525,6 +561,11 @@ async function handleVotingToggle(event) {
   votingToggle.disabled = true;
 
   try {
+    // Require auth token
+    if (!authToken) {
+      throw new Error("Authentication required. Please log in again.");
+    }
+
     // Get admin ID (using username from session or token)
     const adminId = sessionStorage.getItem("adminId") || "admin";
 
@@ -534,7 +575,7 @@ async function handleVotingToggle(event) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(authToken && { Authorization: `Bearer ${authToken}` }),
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({
           adminId: adminId,
@@ -542,6 +583,14 @@ async function handleVotingToggle(event) {
         }),
       }
     );
+
+    // Handle authentication errors
+    if (response.status === 401 || response.status === 403) {
+      const errorData = await response.json().catch(() => ({}));
+      alert(errorData.message || "Session expired. Please log in again.");
+      handleLogout();
+      return;
+    }
 
     const result = await response.json();
 
@@ -601,6 +650,9 @@ function initializeManualVoteEntry() {
 }
 
 async function fetchManualVotes() {
+  // Safety check: prevent API calls when not authenticated
+  if (!isAuthenticated || !authToken) return;
+
   try {
     // Fetch judges
     const judgesResponse = await fetch(
@@ -609,10 +661,18 @@ async function fetchManualVotes() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          ...(authToken && { Authorization: `Bearer ${authToken}` }),
+          Authorization: `Bearer ${authToken}`,
         },
       }
     );
+
+    // Handle auth errors for judges
+    if (judgesResponse.status === 401 || judgesResponse.status === 403) {
+      const errorData = await judgesResponse.json().catch(() => ({}));
+      alert(errorData.message || "Session expired. Please log in again.");
+      handleLogout();
+      return;
+    }
 
     if (judgesResponse.ok) {
       const judgesData = await judgesResponse.json();
@@ -637,10 +697,18 @@ async function fetchManualVotes() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          ...(authToken && { Authorization: `Bearer ${authToken}` }),
+          Authorization: `Bearer ${authToken}`,
         },
       }
     );
+
+    // Handle auth errors for teachers
+    if (teachersResponse.status === 401 || teachersResponse.status === 403) {
+      const errorData = await teachersResponse.json().catch(() => ({}));
+      alert(errorData.message || "Session expired. Please log in again.");
+      handleLogout();
+      return;
+    }
 
     if (teachersResponse.ok) {
       const teachersData = await teachersResponse.json();
@@ -840,6 +908,11 @@ async function handleManualVoteSubmit(form) {
   submitBtn.textContent = "Submitting...";
 
   try {
+    // Require auth token
+    if (!authToken) {
+      throw new Error("Authentication required. Please log in again.");
+    }
+
     // Determine the correct endpoint
     const endpoint =
       type === "judges"
@@ -850,7 +923,7 @@ async function handleManualVoteSubmit(form) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(authToken && { Authorization: `Bearer ${authToken}` }),
+        Authorization: `Bearer ${authToken}`,
       },
       body: JSON.stringify({
         name: name,
@@ -858,6 +931,14 @@ async function handleManualVoteSubmit(form) {
         queen: queen,
       }),
     });
+
+    // Handle authentication errors
+    if (response.status === 401 || response.status === 403) {
+      const errorData = await response.json().catch(() => ({}));
+      alert(errorData.message || "Session expired. Please log in again.");
+      handleLogout();
+      return;
+    }
 
     // Check if response is JSON
     const contentType = response.headers.get("content-type");
