@@ -535,15 +535,15 @@ function initAuthModal() {
     finalYear: 15,
   };
 
-  // Class to roll number prefix mapping
+  // Class to roll number prefix mapping (student-friendly format)
   const rollNumberPrefixes = {
-    firstYear: "FY1",
-    secondYear: "SY3",
-    thirdYear: "TY",
-    fourthYearFirst: "FY1S",
-    fourthYearSecond: "FY2S",
-    fifthYear: "FFY",
-    finalYear: "FNL",
+    firstYear: "SI-IT",
+    secondYear: "SIII-IT",
+    thirdYear: "III-IT",
+    fourthYearFirst: "IV-IT(first)",
+    fourthYearSecond: "IV-IT(second)",
+    fifthYear: "V-IT",
+    finalYear: "VI-IT",
   };
 
   // Handle class selection change
@@ -569,8 +569,7 @@ function initAuthModal() {
 
     for (let i = 1; i <= studentCount; i++) {
       const option = document.createElement("option");
-      const formattedNumber = String(i).padStart(3, "0");
-      const rollNumber = `${prefix}-${formattedNumber}`;
+      const rollNumber = `${prefix} ${i}`;
       option.value = rollNumber;
       option.textContent = rollNumber;
       rollSelect.appendChild(option);
@@ -661,7 +660,7 @@ function getCollectionName(classValue) {
 
 /**
  * Maps the vote submission data to match the backend data structure
- * @param {string|number} rollNumber - The roll number of the student (e.g., "FY1-001", "FNL-015")
+ * @param {string|number} rollNumber - The roll number of the student (e.g., "SI-IT 1", "V-IT 15")
  * @param {string|number} pin - The PIN for authentication
  * @param {string} name - The name of the student
  * @param {Object} kingCandidate - The selected king candidate object
@@ -871,26 +870,26 @@ COLLECTIONS:
 
 SAMPLE FRONTEND VOTE SUBMISSION DATA:
 {
-  "rollNumber": "FY1-001",  // String: Formatted roll number (FY1-001, SY3-001, etc.)
+  "rollNumber": "SI-IT 1",   // String: Student-friendly roll number format
   "pin": 4821,               // Number: 1000-9999 (4-digit PIN)
   "name": "John Doe",        // String: Student's full name (required)
-  "king": 3,                 // Number: 1-7 (King candidate ID)
-  "queen": 5                 // Number: 1-7 (Queen candidate ID)
+  "king": 3,                 // Number: 1-6 (King candidate ID)
+  "queen": 5                 // Number: 1-6 (Queen candidate ID)
 }
 
 ROLL NUMBER FORMATS:
-- First Year (Sem 1): FY1-001 to FY1-080
-- Second Year (Sem 3): SY3-001 to SY3-060
-- Third Year: TY-001 to TY-055
-- Fourth Year (First Sem): FY1S-001 to FY1S-045
-- Fourth Year (Second Sem): FY2S-001 to FY2S-047
-- Fifth Year: FFY-001 to FFY-020
-- Final Year: FNL-001 to FNL-015
+- First Year (Sem 1): SI-IT 1 to SI-IT 80
+- Second Year (Sem 3): SIII-IT 1 to SIII-IT 60
+- Third Year: III-IT 1 to III-IT 55
+- Fourth Year (First Sem): IV-IT(first) 1 to IV-IT(first) 45
+- Fourth Year (Second Sem): IV-IT(second) 1 to IV-IT(second) 47
+- Fifth Year: V-IT 1 to V-IT 20
+- Final Year: VI-IT 1 to VI-IT 15
 
 EXAMPLE USAGE:
 // For Fifth Year student
 const sampleVoteData = {
-  rollNumber: "FFY-001",
+  rollNumber: "V-IT 15",
   pin: 4821,
   name: "John Doe",
   king: 3,
@@ -911,7 +910,7 @@ SUCCESS RESPONSE:
   "success": true,
   "message": "Vote submitted successfully",
   "student": {
-    "rollNumber": "FFY-001",
+    "rollNumber": "V-IT 15",
     "name": "John Doe",
     "voted": true,
     "king": 3,
@@ -923,6 +922,6 @@ ERROR RESPONSES:
 - Invalid PIN: {"error": "Invalid PIN"}
 - Already voted: {"error": "Already voted", "details": "This student has already submitted their vote"}
 - Missing name: {"error": "Name is required"}
-- Invalid vote: {"error": "King and Queen must be between 1 and 7"}
-- Not found: {"error": "Student not found", "details": "Roll number 999 not found in fifthyear"}
+- Invalid vote: {"error": "King and Queen must be between 1 and 6"}
+- Not found: {"error": "Student not found", "details": "Roll number not found"}
 */
