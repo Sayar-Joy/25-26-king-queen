@@ -15,7 +15,7 @@ const maleCandidates = [
     ],
     hobby: "Art & Golf",
     about:
-      "Focuses on practical aeronautics projects and mentors freshmen in robotics club meetings.",
+      "Where the quiet discipline of the fairway meets the vivid romance of a dream-filled canvas.",
   },
   {
     id: "k2",
@@ -27,9 +27,9 @@ const maleCandidates = [
       "assets/kings/ks2/detail2.jpg",
       "assets/kings/ks2/detail3.jpg",
     ],
-    hobby: "Classical guitar",
+    hobby: "Sports👟and Music 🎶",
     about:
-      "Organizes unplugged sessions on campus to raise funds for local literacy programs.",
+      "I am a motivated university student who enjoys sports and music. I have teaching experience, which has helped me become more confident, responsible, and communicative. I believe I can represent my university community with a positive attitude and strong character.To be honest, I am still trying my best to become a more amiable person. I may not promise perfection, but I do promise gratitude for every vote.",
   },
   {
     id: "k3",
@@ -83,9 +83,9 @@ const maleCandidates = [
       "assets/kings/ks6/detail2.jpg",
       "assets/kings/ks6/detail3.jpg",
     ],
-    hobby: "Basketball",
+    hobby: "Beatboxing",
     about:
-      "Captains the varsity squad and hosts community sports clinics for local teens.",
+      "Personality is all you need",
   },
 ];
 
@@ -162,7 +162,7 @@ const femaleCandidates = [
   },
   {
     id: "q6",
-    name: "Nyein Su Thaw",
+    name: "Nyein Hsu Thaw",
     rollNumber: "SI IT 70",
     photo: "assets/queens/qs6/main.jpg",
     detailPhotos: [
@@ -170,9 +170,9 @@ const femaleCandidates = [
       "assets/queens/qs6/detail2.jpg",
       "assets/queens/qs6/detail3.jpg",
     ],
-    hobby: "Volunteering at shelters",
+    hobby: "Singing & cooking",
     about:
-      "Coordinates outreach drives to provide tech education for displaced youth.",
+      "Life becomes more delightful with sweet melodies & tasty snacks.",
   },
 ];
 
