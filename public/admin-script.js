@@ -448,7 +448,11 @@ function showCelebration(gender, rank, candidateNum) {
     gender === "king"
       ? window.candidateData.maleCandidates
       : window.candidateData.femaleCandidates;
-  const candidate = candidates.find((c) => c.id === candidateNum);
+  
+  // Match by candidate number (candidateNum could be 1-6, ids are "k1"-"k6" or "q1"-"q6")
+  const prefix = gender === "king" ? "k" : "q";
+  const candidateId = `${prefix}${candidateNum}`;
+  const candidate = candidates.find((c) => c.id === candidateId);
 
   if (!candidate) return;
 
