@@ -269,16 +269,16 @@ function initRobotAssistant() {
   robot.style.top = "100px";
 
   const tips = [
-    "👋 Hi! Click on any candidate card to learn more about them!",
-    "💡 Swipe left or right to browse through all candidates.",
-    "✨ Click the 'More about him/her' button for full details.",
-    "🎯 Use the King/Queen tabs to switch between categories.",
-    "📱 This site works great on mobile too!",
-    "🌟 Vote for your favorite candidate by clicking the Vote button!",
-    "🔍 The centered card is highlighted - swipe to change focus.",
-    "💫 Check out the Rules page to learn how voting works!",
-    "🎨 Enjoying the cosmic background? It rotates slowly!",
-    "👀 Each candidate has unique hobbies and interests!",
+    "👋 ဟိုင်း ! More about လေးနှိပ်ပြီး selection လေးတွေရဲ့ပုံတွေကြည့်လို့ရတယ်နော်",
+    "💡 ဟိုဘက်ဒီဘက်ဆွဲပြီး selection လေးတွေအကုန်ကြည့်ပစ်",
+    "🤪 ဟိုတစ်ယောက်ကိုကြိုက်တယ်မလား ",
+    "🎯 King/Queen tabs လေးကိုပြောင်းပြီး ကောင်လေးတွေကောကောင်မလေးတွေကောကြည့်",
+    "😛 CEIT က selection လေးတွေချောတယ်မလား ",
+    "🥳 အသည်းကြားက မဲတစ်ပြားနော် vote button ကိုမြန်မြန်နှိပ်",
+    "🔍 သေချားစဉ်းစားနော် သားကြီး",
+    "💫 How to vote နဲ့ rules လေးတွေလည်းဖတ်ကြည့်ဦးနော်",
+    "😁 ချစ်မိရင်တာဝန်မယူပါ ",
+    "👀 Selection လေးတွေအကြောင်းလည်းဝင်ဖတ်ဦးနော်",
   ];
 
   let currentTipIndex = 0;
