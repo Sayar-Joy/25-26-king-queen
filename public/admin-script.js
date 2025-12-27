@@ -183,8 +183,8 @@ async function callProtectedAPI(endpoint, method = "GET", body = null) {
     method,
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
 
   if (body) {
@@ -207,7 +207,11 @@ async function callProtectedAPI(endpoint, method = "GET", body = null) {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || errorData.message || `HTTP error! status: ${response.status}`);
+      throw new Error(
+        errorData.error ||
+          errorData.message ||
+          `HTTP error! status: ${response.status}`
+      );
     }
 
     return await response.json();
@@ -228,7 +232,7 @@ function showLogin() {
 function showDashboard() {
   loginPage.style.display = "none";
   dashboardPage.style.display = "block";
-  
+
   // Display admin username
   const adminData = getAdminData();
   if (adminData && adminData.username) {
@@ -251,7 +255,7 @@ async function fetchStats(showLoader = false) {
 
   try {
     statsData = await callProtectedAPI("/api/stats/live");
-    
+
     if (statsData) {
       updateDashboard(statsData);
       updateLastUpdated();
@@ -689,10 +693,9 @@ async function fetchManualVotes() {
             name: teacher.name || "",
             king: teacher.king,
             queen: teacher.queen,
-            };
-          }
-        });
-      }
+          };
+        }
+      });
     }
 
     updateManualVoteProgress();
