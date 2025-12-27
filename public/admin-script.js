@@ -84,13 +84,11 @@ async function handleLogin(e) {
       // Login successful - store JWT token
       isAuthenticated = true;
       authToken = result.token; // Token is now always provided by backend
-      sessionStorage.setItem("adminAuth", "true");
-      sessionStorage.setItem("authToken", authToken);
+      localStorage.setItem("adminToken", authToken);
+      localStorage.setItem("adminData", JSON.stringify(result.admin));
 
-      // Store admin info if needed
-      if (result.admin) {
-        sessionStorage.setItem("adminUser", JSON.stringify(result.admin));
-      }
+      // Log successful login (without sensitive data)
+      console.log("Login successful:", result.admin.username);
 
       showDashboard();
       fetchStats();
@@ -127,11 +125,9 @@ function handleLogout() {
   votingEnabled = false;
   manualVoteData = { judges: {}, teachers: {} };
 
-  // Clear session storage completely
-  sessionStorage.removeItem("adminAuth");
-  sessionStorage.removeItem("authToken");
-  sessionStorage.removeItem("adminUser");
-  sessionStorage.removeItem("adminId");
+  // Clear localStorage completely
+  localStorage.removeItem("adminToken");
+  localStorage.removeItem("adminData");
 
   // Double-check interval is cleared
   if (autoRefreshInterval) {
@@ -149,9 +145,8 @@ function handleLogout() {
 }
 
 function checkAuth() {
-  const auth = sessionStorage.getItem("adminAuth");
-  const token = sessionStorage.getItem("authToken");
-  if (auth === "true") {
+  const token = localStorage.getItem("adminToken");
+  if (token) {
     isAuthenticated = true;
     authToken = token;
     showDashboard();
@@ -161,6 +156,64 @@ function checkAuth() {
     startAutoRefresh();
   } else {
     showLogin();
+  }
+}
+
+// Helper function to check if user is authenticated
+function isAuthenticatedUser() {
+  return !!localStorage.getItem("adminToken");
+}
+
+// Get current admin data
+function getAdminData() {
+  const data = localStorage.getItem("adminData");
+  return data ? JSON.parse(data) : null;
+}
+
+// Protected API call helper function
+async function callProtectedAPI(endpoint, method = "GET", body = null) {
+  const token = localStorage.getItem("adminToken");
+
+  if (!token) {
+    handleLogout();
+    return null;
+  }
+
+  const options = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  };
+
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  try {
+    const response = await fetch(
+      `https://two5-26-king-queen-backend.onrender.com${endpoint}`,
+      options
+    );
+
+    // Handle authentication errors
+    if (response.status === 401 || response.status === 403) {
+      const errorData = await response.json().catch(() => ({}));
+      alert(errorData.message || "Session expired. Please log in again.");
+      handleLogout();
+      return null;
+    }
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || errorData.message || `HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("API Error:", error);
+    throw error;
   }
 }
 
@@ -175,6 +228,15 @@ function showLogin() {
 function showDashboard() {
   loginPage.style.display = "none";
   dashboardPage.style.display = "block";
+  
+  // Display admin username
+  const adminData = getAdminData();
+  if (adminData && adminData.username) {
+    const usernameElement = document.getElementById("adminUsername");
+    if (usernameElement) {
+      usernameElement.textContent = `👤 ${adminData.username}`;
+    }
+  }
 }
 
 function showLoading(show) {
@@ -188,37 +250,12 @@ async function fetchStats(showLoader = false) {
   if (showLoader) showLoading(true);
 
   try {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    // Add authorization token if available
-    if (authToken) {
-      headers["Authorization"] = `Bearer ${authToken}`;
+    statsData = await callProtectedAPI("/api/stats/live");
+    
+    if (statsData) {
+      updateDashboard(statsData);
+      updateLastUpdated();
     }
-
-    const response = await fetch(
-      "https://two5-26-king-queen-backend.onrender.com/api/stats/live",
-      {
-        method: "GET",
-        headers: headers,
-      }
-    );
-
-    if (!response.ok) {
-      if (response.status === 401 || response.status === 403) {
-        // Unauthorized - logout user
-        const errorData = await response.json().catch(() => ({}));
-        alert(errorData.message || "Session expired. Please log in again.");
-        handleLogout();
-        return;
-      }
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    statsData = await response.json();
-    updateDashboard(statsData);
-    updateLastUpdated();
   } catch (error) {
     console.error("Error fetching stats:", error);
     showError(error.message || "Failed to fetch statistics. Please try again.");
@@ -561,40 +598,13 @@ async function handleVotingToggle(event) {
   votingToggle.disabled = true;
 
   try {
-    // Require auth token
-    if (!authToken) {
-      throw new Error("Authentication required. Please log in again.");
-    }
-
-    // Get admin ID (using username from session or token)
-    const adminId = sessionStorage.getItem("adminId") || "admin";
-
-    const response = await fetch(
-      "https://two5-26-king-queen-backend.onrender.com/api/admindamnbro/toggle-voting",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({
-          adminId: adminId,
-          enabled: enabled,
-        }),
-      }
+    const result = await callProtectedAPI(
+      "/api/admindamnbro/toggle-voting",
+      "POST",
+      { enabled: enabled }
     );
 
-    // Handle authentication errors
-    if (response.status === 401 || response.status === 403) {
-      const errorData = await response.json().catch(() => ({}));
-      alert(errorData.message || "Session expired. Please log in again.");
-      handleLogout();
-      return;
-    }
-
-    const result = await response.json();
-
-    if (response.ok && result.success) {
+    if (result && result.success) {
       votingEnabled = result.votingEnabled;
       updateVotingStatusUI();
 
@@ -604,7 +614,7 @@ async function handleVotingToggle(event) {
         : "🔒 Voting is now CLOSED. Students cannot submit votes.";
       alert(message);
     } else {
-      throw new Error(result.message || "Failed to update voting status");
+      throw new Error("Failed to update voting status");
     }
   } catch (error) {
     console.error("Error toggling voting:", error);
@@ -655,71 +665,30 @@ async function fetchManualVotes() {
 
   try {
     // Fetch judges
-    const judgesResponse = await fetch(
-      "https://two5-26-king-queen-backend.onrender.com/api/admin/judges",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-      }
-    );
-
-    // Handle auth errors for judges
-    if (judgesResponse.status === 401 || judgesResponse.status === 403) {
-      const errorData = await judgesResponse.json().catch(() => ({}));
-      alert(errorData.message || "Session expired. Please log in again.");
-      handleLogout();
-      return;
-    }
-
-    if (judgesResponse.ok) {
-      const judgesData = await judgesResponse.json();
-      if (judgesData.judges) {
-        judgesData.judges.forEach((judge) => {
-          if (manualVoteData.judges[judge.judgeId]) {
-            manualVoteData.judges[judge.judgeId] = {
-              voted: judge.voted,
-              name: judge.name || "",
-              king: judge.king,
-              queen: judge.queen,
-            };
-          }
-        });
-      }
+    const judgesData = await callProtectedAPI("/api/admin/judges");
+    if (judgesData && judgesData.judges) {
+      judgesData.judges.forEach((judge) => {
+        if (manualVoteData.judges[judge.judgeId]) {
+          manualVoteData.judges[judge.judgeId] = {
+            voted: judge.voted,
+            name: judge.name || "",
+            king: judge.king,
+            queen: judge.queen,
+          };
+        }
+      });
     }
 
     // Fetch teachers
-    const teachersResponse = await fetch(
-      "https://two5-26-king-queen-backend.onrender.com/api/admin/teachers",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-      }
-    );
-
-    // Handle auth errors for teachers
-    if (teachersResponse.status === 401 || teachersResponse.status === 403) {
-      const errorData = await teachersResponse.json().catch(() => ({}));
-      alert(errorData.message || "Session expired. Please log in again.");
-      handleLogout();
-      return;
-    }
-
-    if (teachersResponse.ok) {
-      const teachersData = await teachersResponse.json();
-      if (teachersData.teachers) {
-        teachersData.teachers.forEach((teacher) => {
-          if (manualVoteData.teachers[teacher.teacherId]) {
-            manualVoteData.teachers[teacher.teacherId] = {
-              voted: teacher.voted,
-              name: teacher.name || "",
-              king: teacher.king,
-              queen: teacher.queen,
+    const teachersData = await callProtectedAPI("/api/admin/teachers");
+    if (teachersData && teachersData.teachers) {
+      teachersData.teachers.forEach((teacher) => {
+        if (manualVoteData.teachers[teacher.teacherId]) {
+          manualVoteData.teachers[teacher.teacherId] = {
+            voted: teacher.voted,
+            name: teacher.name || "",
+            king: teacher.king,
+            queen: teacher.queen,
             };
           }
         });
@@ -908,47 +877,19 @@ async function handleManualVoteSubmit(form) {
   submitBtn.textContent = "Submitting...";
 
   try {
-    // Require auth token
-    if (!authToken) {
-      throw new Error("Authentication required. Please log in again.");
-    }
-
     // Determine the correct endpoint
     const endpoint =
       type === "judges"
-        ? `https://two5-26-king-queen-backend.onrender.com/api/admin/judge/${id}/vote`
-        : `https://two5-26-king-queen-backend.onrender.com/api/admin/teacher/${id}/vote`;
+        ? `/api/admin/judge/${id}/vote`
+        : `/api/admin/teacher/${id}/vote`;
 
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
-      },
-      body: JSON.stringify({
-        name: name,
-        king: king,
-        queen: queen,
-      }),
+    const result = await callProtectedAPI(endpoint, "POST", {
+      name: name,
+      king: king,
+      queen: queen,
     });
 
-    // Handle authentication errors
-    if (response.status === 401 || response.status === 403) {
-      const errorData = await response.json().catch(() => ({}));
-      alert(errorData.message || "Session expired. Please log in again.");
-      handleLogout();
-      return;
-    }
-
-    // Check if response is JSON
-    const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new Error("Server error: Invalid response format from API.");
-    }
-
-    const result = await response.json();
-
-    if (response.ok && result.success) {
+    if (result && result.success) {
       // Update local data
       const dataObj =
         type === "judges" ? manualVoteData.judges : manualVoteData.teachers;
