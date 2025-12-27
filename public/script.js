@@ -669,12 +669,21 @@ function getCollectionName(classValue) {
  * @returns {Object} The mapped vote data ready for submission
  */
 function mapVoteData(rollNumber, pin, name, kingCandidate, queenCandidate) {
+  // Extract numeric ID from candidate ID (e.g., "k1" -> 1, "q3" -> 3)
+  const getNumericId = (candidate) => {
+    if (!candidate?.id) return null;
+    const id = String(candidate.id);
+    // Extract number from strings like "k1", "q3", or just "1"
+    const match = id.match(/\d+/);
+    return match ? parseInt(match[0]) : null;
+  };
+
   return {
     rollNumber: rollNumber, // Keep as string (e.g., "FY1-001")
     pin: parseInt(pin),
     name: name || null,
-    king: kingCandidate?.id ? parseInt(kingCandidate.id) : null,
-    queen: queenCandidate?.id ? parseInt(queenCandidate.id) : null,
+    king: getNumericId(kingCandidate),
+    queen: getNumericId(queenCandidate),
   };
 }
 
