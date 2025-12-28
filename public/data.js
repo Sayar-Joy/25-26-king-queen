@@ -83,9 +83,9 @@ const maleCandidates = [
       "assets/kings/ks6/detail2.jpg",
       "assets/kings/ks6/detail3.jpg",
     ],
-    hobby: "Beatboxing",
+    hobby: "Beatboxing and chess",
     about:
-      "Personality is all you need",
+      "I believe the best moves are made with patience. Chess taught me strategy; life taught me confidence",
   },
 ];
 
