@@ -3,54 +3,63 @@
 ## Changes Made
 
 ### 1. **Storage Migration: sessionStorage → localStorage**
-   - **Why**: localStorage persists across browser sessions (token valid for 4 hours)
-   - **Keys**:
-     - `adminToken` - JWT token
-     - `adminData` - Admin user information (username, role, etc.)
+
+- **Why**: localStorage persists across browser sessions (token valid for 4 hours)
+- **Keys**:
+  - `adminToken` - JWT token
+  - `adminData` - Admin user information (username, role, etc.)
 
 ### 2. **New Helper Functions**
 
 #### `callProtectedAPI(endpoint, method, body)`
+
 Centralized function for all protected API calls:
+
 - Automatically adds `Authorization: Bearer <token>` header
 - Handles 401/403 errors (redirects to login)
 - Returns null on auth failure
 - Throws errors for other failures
 
 ```javascript
-const data = await callProtectedAPI('/api/admin/judges');
-const result = await callProtectedAPI('/api/admin/judge/J001/vote', 'POST', {
-  name: 'John Doe',
+const data = await callProtectedAPI("/api/admin/judges");
+const result = await callProtectedAPI("/api/admin/judge/J001/vote", "POST", {
+  name: "John Doe",
   king: 1,
-  queen: 2
+  queen: 2,
 });
 ```
 
 #### `isAuthenticatedUser()`
+
 Quick check if user has valid token
 
 #### `getAdminData()`
+
 Retrieves stored admin information from localStorage
 
 ### 3. **Updated Functions**
 
 #### Authentication Flow
+
 - `handleLogin()` - Now stores token in localStorage
 - `checkAuth()` - Checks localStorage on page load
 - `handleLogout()` - Clears localStorage completely
 
 #### Protected API Calls (Now Using callProtectedAPI)
+
 - `fetchStats()` - Get live voting statistics
 - `handleVotingToggle()` - Toggle student voting on/off
 - `fetchManualVotes()` - Get judges and teachers data
 - `handleManualVoteSubmit()` - Submit manual votes for judges/teachers
 
 ### 4. **UI Enhancements**
+
 - Added admin username display in dashboard header (badge with 👤 icon)
 - Better error messages for authentication failures
 - Automatic logout on token expiration
 
 ### 5. **Security Improvements**
+
 - All protected endpoints now require valid JWT token
 - Automatic session cleanup on logout
 - Token validation on every protected API call
@@ -59,10 +68,12 @@ Retrieves stored admin information from localStorage
 ## API Endpoints
 
 ### Public (No Token Required)
+
 - `POST /api/admindamnbro/loginkyaml` - Admin login
 - `GET /api/voting-status` - Check voting status
 
 ### Protected (Token Required)
+
 - `GET /api/stats/live` - Live statistics
 - `POST /api/admindamnbro/toggle-voting` - Toggle student voting
 - `POST /api/admindamnbro/toggle-judge-voting` - Toggle judge voting
@@ -96,6 +107,7 @@ Retrieves stored admin information from localStorage
 ## Error Handling
 
 All protected API calls now handle:
+
 - **401 Unauthorized** - Invalid/expired token → Logout + redirect
 - **403 Forbidden** - Insufficient permissions → Logout + redirect
 - **400 Bad Request** - Validation errors → Display error message

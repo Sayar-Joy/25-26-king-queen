@@ -582,8 +582,11 @@ function initAuthModal() {
     for (let i = 1; i <= studentCount; i++) {
       const option = document.createElement("option");
       const displayRollNumber = `${displayPrefix} ${i}`;
-      const backendRollNumber = `${backendPrefix}-${String(i).padStart(3, "0")}`;
-      
+      const backendRollNumber = `${backendPrefix}-${String(i).padStart(
+        3,
+        "0"
+      )}`;
+
       // Display student-friendly format, but store backend format as value
       option.value = backendRollNumber;
       option.textContent = displayRollNumber;
