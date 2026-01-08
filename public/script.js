@@ -526,13 +526,13 @@ function initAuthModal() {
 
   // Class to student count mapping
   const classStudentCounts = {
-    firstYear: 80,
-    secondYear: 60,
-    thirdYear: 55,
-    fourthYearFirst: 45,
-    fourthYearSecond: 47,
+    firstYear: 83,
+    secondYear: 70,
+    thirdYear: 58,
+    fourthYearFirst: 57,
+    fourthYearSecond: 36,
     fifthYear: 20,
-    finalYear: 15,
+    finalYear: 14,
   };
 
   // Class to roll number prefix mapping (student-friendly format for display)
