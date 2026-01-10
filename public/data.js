@@ -17,7 +17,7 @@ const maleCandidates = [
     about:
       "Where the quiet discipline of the fairway meets the vivid romance of a dream-filled canvas.",
   },
-    {
+  {
     id: "k2",
     name: "Min Thu Kha",
     rollNumber: "SI IT 61",
@@ -30,6 +30,8 @@ const maleCandidates = [
     hobby: "Reading and badminton 🏸",
     about:
       "I am a passionate reader and an occasional writer with a keen interest in business and management. Beyond my academic and professional pursuits, I enjoy staying active through badminton and find great value in participating in panel discussions and collaborative dialogues.Mirrors reflect our outer beauty; books reflect our inner growth.",
+    title: "King",
+    cardStyle: "gold",
   },
   {
     id: "k3",
@@ -59,6 +61,8 @@ const maleCandidates = [
     hobby: "art, sports and playing guitar",
     about:
       "I’m Kaung Khant Zaw — your artist, athlete, and guitar-shredder. I don't just follow the beat; I create it. I’m bringing my A-game from the court to the stage to represent you as King. Simple as that. Your vote, my vibe!",
+    title: "Prince",
+    cardStyle: "platinum",
   },
   {
     id: "k5",
@@ -73,6 +77,8 @@ const maleCandidates = [
     hobby: "Calculation and exploration",
     about:
       "While others take things for granted, I earn them through dedication. As a phoenix who can overcome any adversity, letting me go is a mistake your future cannot afford.",
+    title: "Mr. Popular",
+    cardStyle: "blue",
   },
   {
     id: "k6",
@@ -102,8 +108,9 @@ const femaleCandidates = [
       "assets/queens/qs1/detail3.jpg",
     ],
     hobby: "Learning languages",
-    about:
-      "“I don’t talk much, but when I care, I’m always there for you.”",
+    about: "“I don’t talk much, but when I care, I’m always there for you.”",
+    title: "Queen",
+    cardStyle: "gold",
   },
 
   {
@@ -117,10 +124,9 @@ const femaleCandidates = [
       "assets/queens/qs2/detail3.jpg",
     ],
     hobby: "Watching movies",
-    about:
-      "turning free times into movie times ( stranger things enthusiast)",
+    about: "turning free times into movie times ( stranger things enthusiast)",
   },
-    {
+  {
     id: "q3",
     name: "Thet Htar Zin",
     rollNumber: "SI IT 65",
@@ -131,8 +137,7 @@ const femaleCandidates = [
       "assets/queens/qs3/detail3.jpg",
     ],
     hobby: "almost everything (like “when will my life begin” song )",
-    about:
-      "Introvert by default, extrovert once you say hi.",
+    about: "Introvert by default, extrovert once you say hi.",
   },
   {
     id: "q4",
@@ -147,6 +152,8 @@ const femaleCandidates = [
     hobby: "Drawing",
     about:
       "I'm a quiet person but once you get to know me I'll always be supporting you.",
+    title: "Miss Popular",
+    cardStyle: "blue",
   },
   {
     id: "q5",
@@ -161,6 +168,8 @@ const femaleCandidates = [
     hobby: "Reading & swimming",
     about:
       "I choose growth over comparison, authenticity over perfection. I embrace my flaws and move forward with calm confidence and quiet purpose.",
+    title: "Princess",
+    cardStyle: "platinum",
   },
   {
     id: "q6",
@@ -173,8 +182,7 @@ const femaleCandidates = [
       "assets/queens/qs6/detail3.jpg",
     ],
     hobby: "Singing & cooking",
-    about:
-      "Life becomes more delightful with sweet melodies & tasty snacks.",
+    about: "Life becomes more delightful with sweet melodies & tasty snacks.",
   },
 ];
 

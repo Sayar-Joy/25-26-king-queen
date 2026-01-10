@@ -131,6 +131,207 @@ body {
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
 }
 
+/* Winner card styles */
+.candidate-card.winner-gold {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.2),
+    rgba(255, 193, 7, 0.3),
+    rgba(255, 215, 0, 0.2)
+  );
+  background-size: 300% 300%;
+  border: 3px solid #ffd700;
+  box-shadow: 0 12px 40px rgba(255, 215, 0, 0.6),
+    0 4px 12px rgba(255, 215, 0, 0.5), 
+    inset 0 2px 0 rgba(255, 215, 0, 0.4),
+    0 0 40px rgba(255, 215, 0, 0.4), 
+    0 0 60px rgba(255, 215, 0, 0.2);
+  position: relative;
+  animation: goldAura 4s ease infinite;
+}
+
+@keyframes goldAura {
+  0%, 100% {
+    box-shadow: 0 12px 40px rgba(255, 215, 0, 0.6),
+      0 4px 12px rgba(255, 215, 0, 0.5), 
+      inset 0 2px 0 rgba(255, 215, 0, 0.4),
+      0 0 40px rgba(255, 215, 0, 0.4), 
+      0 0 60px rgba(255, 215, 0, 0.2);
+    background-position: 0% 50%;
+  }
+  50% {
+    box-shadow: 0 12px 40px rgba(255, 215, 0, 0.7),
+      0 4px 12px rgba(255, 215, 0, 0.6), 
+      inset 0 2px 0 rgba(255, 215, 0, 0.5),
+      0 0 50px rgba(255, 215, 0, 0.5), 
+      0 0 80px rgba(255, 215, 0, 0.3);
+    background-position: 100% 50%;
+  }
+}
+
+.candidate-card.winner-gold::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e, #ffc107, #ffed4e, #ffd700);
+  background-size: 300% 300%;
+  color: #000;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.7),
+    0 0 20px rgba(255, 215, 0, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  animation: goldShimmer 3s ease infinite;
+  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+@keyframes goldShimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.candidate-card.winner-platinum {
+  background: linear-gradient(
+    135deg,
+    rgba(138, 43, 226, 0.25),
+    rgba(147, 51, 234, 0.3),
+    rgba(168, 85, 247, 0.25),
+    rgba(138, 43, 226, 0.2)
+  );
+  background-size: 300% 300%;
+  border: 3px solid #8b2fc9;
+  box-shadow: 0 12px 40px rgba(138, 43, 226, 0.6),
+    0 4px 12px rgba(147, 51, 234, 0.5), inset 0 2px 0 rgba(168, 85, 247, 0.4),
+    0 0 40px rgba(138, 43, 226, 0.4), 0 0 60px rgba(147, 51, 234, 0.2);
+  position: relative;
+  animation: royalAura 4s ease infinite;
+}
+
+@keyframes royalAura {
+  0%,
+  100% {
+    box-shadow: 0 12px 40px rgba(138, 43, 226, 0.6),
+      0 4px 12px rgba(147, 51, 234, 0.5), inset 0 2px 0 rgba(168, 85, 247, 0.4),
+      0 0 40px rgba(138, 43, 226, 0.4), 0 0 60px rgba(147, 51, 234, 0.2);
+    background-position: 0% 50%;
+  }
+  50% {
+    box-shadow: 0 12px 40px rgba(138, 43, 226, 0.7),
+      0 4px 12px rgba(147, 51, 234, 0.6), inset 0 2px 0 rgba(168, 85, 247, 0.5),
+      0 0 50px rgba(138, 43, 226, 0.5), 0 0 80px rgba(147, 51, 234, 0.3);
+    background-position: 100% 50%;
+  }
+}
+
+.candidate-card.winner-platinum::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(
+    135deg,
+    #8b2fc9,
+    #a855f7,
+    #c084fc,
+    #a855f7,
+    #8b2fc9
+  );
+  background-size: 300% 300%;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(138, 43, 226, 0.7),
+    0 0 20px rgba(168, 85, 247, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  animation: platinumShimmer 3s ease infinite;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes platinumShimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.candidate-card.winner-blue {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 59, 115, 0.2),
+    rgba(0, 0, 205, 0.25),
+    rgba(65, 105, 225, 0.2)
+  );
+  background-size: 300% 300%;
+  border: 3px solid #003b73;
+  box-shadow: 0 12px 40px rgba(0, 59, 115, 0.6),
+    0 4px 12px rgba(0, 59, 115, 0.5), 
+    inset 0 2px 0 rgba(0, 59, 115, 0.4),
+    0 0 40px rgba(0, 59, 115, 0.4), 
+    0 0 60px rgba(0, 59, 115, 0.2);
+  position: relative;
+  animation: blueAura 4s ease infinite;
+}
+
+@keyframes blueAura {
+  0%, 100% {
+    box-shadow: 0 12px 40px rgba(0, 59, 115, 0.6),
+      0 4px 12px rgba(0, 59, 115, 0.5), 
+      inset 0 2px 0 rgba(0, 59, 115, 0.4),
+      0 0 40px rgba(0, 59, 115, 0.4), 
+      0 0 60px rgba(0, 59, 115, 0.2);
+    background-position: 0% 50%;
+  }
+  50% {
+    box-shadow: 0 12px 40px rgba(0, 59, 115, 0.7),
+      0 4px 12px rgba(0, 59, 115, 0.6), 
+      inset 0 2px 0 rgba(0, 59, 115, 0.5),
+      0 0 50px rgba(0, 59, 115, 0.5), 
+      0 0 80px rgba(0, 59, 115, 0.3);
+    background-position: 100% 50%;
+  }
+}
+
+.candidate-card.winner-blue::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #003b73, #0000cd, #4169e1, #0000cd, #003b73);
+  background-size: 300% 300%;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(0, 59, 115, 0.7),
+    0 0 20px rgba(65, 105, 225, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  animation: blueShimmer 3s ease infinite;
+  text-shadow: 0 0 10px rgba(65, 105, 225, 0.5);
+}
+
+@keyframes blueShimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 /* Add extra spacing around tab content for better layout */
 .tab-content {
   padding: 1.5rem 0;

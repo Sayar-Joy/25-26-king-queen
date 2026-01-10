@@ -72,6 +72,16 @@ function createCandidateCard(candidate, index, { pronoun, gender }) {
   const card = document.createElement("div");
   card.className = "candidate-card text-center";
 
+  // Apply winner styling if available
+  if (candidate.cardStyle) {
+    card.classList.add(`winner-${candidate.cardStyle}`);
+  }
+
+  // Set data attribute for title display
+  if (candidate.title) {
+    card.dataset.title = candidate.title;
+  }
+
   const placeholder = document.createElement("div");
   placeholder.className = "candidate-img";
   if (candidate.photo) {
@@ -438,9 +448,7 @@ function bindCenterFocus(scroller) {
 function handleVote(candidate, cardElement, gender) {
   // Check if voting is enabled
   if (!votingEnabled) {
-    alert(
-      "⚠️ Voting is currently closed. The voting will open on January 9, 2026."
-    );
+    alert("⚠️ The event is over. Thank you for your participation!");
     return;
   }
 
