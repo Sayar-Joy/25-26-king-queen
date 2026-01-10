@@ -5,6 +5,9 @@ let votingEnabled = true; // Default to true, will be updated by API
 let votingStatusCheckInterval = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Show celebration intro
+  initCelebrationIntro();
+
   const data = window.candidateData || {};
   const { maleCandidates = [], femaleCandidates = [] } = data;
 
@@ -27,6 +30,100 @@ document.addEventListener("DOMContentLoaded", () => {
   // Poll voting status every 30 seconds
   votingStatusCheckInterval = setInterval(checkVotingStatus, 30000);
 });
+
+function initCelebrationIntro() {
+  const intro = document.getElementById("celebrationIntro");
+  const closeBtn = document.getElementById("celebrationClose");
+  const canvas = document.getElementById("confettiCanvas");
+
+  if (!intro || !closeBtn || !canvas) return;
+
+  // Setup confetti
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const confetti = [];
+  const confettiCount = 150;
+  const colors = [
+    "#ffd700",
+    "#ffc107",
+    "#ff69b4",
+    "#c084fc",
+    "#4169e1",
+    "#00ff00",
+    "#ff4500",
+  ];
+
+  class Confetto {
+    constructor() {
+      this.reset();
+      this.y = Math.random() * canvas.height;
+    }
+
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = -20;
+      this.size = Math.random() * 8 + 4;
+      this.speed = Math.random() * 3 + 2;
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.angle = Math.random() * Math.PI * 2;
+      this.spin = Math.random() * 0.2 - 0.1;
+      this.drift = Math.random() * 2 - 1;
+    }
+
+    update() {
+      this.y += this.speed;
+      this.x += this.drift;
+      this.angle += this.spin;
+
+      if (this.y > canvas.height) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.fillStyle = this.color;
+      ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+      ctx.restore();
+    }
+  }
+
+  for (let i = 0; i < confettiCount; i++) {
+    confetti.push(new Confetto());
+  }
+
+  function animateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confetti.forEach((c) => {
+      c.update();
+      c.draw();
+    });
+
+    if (!intro.classList.contains("hidden")) {
+      requestAnimationFrame(animateConfetti);
+    }
+  }
+
+  animateConfetti();
+
+  // Close celebration
+  closeBtn.addEventListener("click", () => {
+    intro.classList.add("hidden");
+    setTimeout(() => {
+      intro.style.display = "none";
+    }, 800);
+  });
+
+  // Resize canvas on window resize
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+}
 
 function renderCarousel(candidates, carouselId, { pronoun, gender }) {
   const carousel = document.getElementById(carouselId);
